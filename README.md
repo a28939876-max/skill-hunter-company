@@ -4,6 +4,8 @@
 
 [中文版 →](README.zh-CN.md)
 
+![skill-hunter-company — source · vet · bespoke · place · manage your AI agent skills](assets/banner.png)
+
 ![A real roster review: 34 skills on the payroll, 16 idle on the bench](assets/proof-roster.png)
 
 A retained **headhunting firm for the skills your AI agent depends on.**

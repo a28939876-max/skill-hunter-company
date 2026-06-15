@@ -5,8 +5,8 @@
 | 资产 | 文件 | 比例 | 用途 | 出法 |
 |---|---|---|---|---|
 | 实证图 / 头图 | `assets/proof-roster.png` | 16:9（1200×675） | README 首屏 · Twitter/X 头图 · 公众号头图 | **已出**。HTML 渲染 `firm.py roster` 真实输出后截 file://（实为本地 server + curl 核验内容再截，绕开 404 坑），**不是文生图** |
-| 概念图 | `assets/concept-*.png` | 3:4 + 16:9 | 小红书封面 · Twitter 备选 | 待出。猎头隐喻（给 skill 发 offer / 名册看板）。走 image2 / poster-graphic-design |
-| Banner | `assets/banner.png` | 宽幅 | README / 社媒页眉 | 待出。一句定位 + 五阶段。走 image2 / poster |
+| Banner | `assets/banner.png` | 2:1（1280×640） | README hero · GitHub social preview · 社媒页眉 | **已出**。HTML 渲染（文字精确：brand + tagline + 找/验/融/装/治 五阶段），非文生图 |
+| 概念图 | `assets/concept.png` | 2:3（1024×1536） | 小红书封面 · Twitter 备选 | **已出**。image2（gpt-image-2）编辑风扁平插画：递 offer 给芯片机器人候选 + 名册看板（在岗 vs 板凳）。少字、反 slop |
 
 ## 平台适配
 - **Twitter / X**：`proof-roster.png`（16:9）做头图；竖图会被裁。

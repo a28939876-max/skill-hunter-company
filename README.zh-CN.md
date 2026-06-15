@@ -4,6 +4,8 @@
 
 [English →](README.md)
 
+![skill-hunter-company — 找 · 验 · 融 · 装 · 治 你的 AI agent skill](assets/banner.png)
+
 ![真实的名册体检：34 个在岗 skill，16 个闲置在板凳席](assets/proof-roster.png)
 
 一家为你 **AI agent 所依赖的 skill** 服务的 **猎头公司（高管猎聘 / executive search）**。
