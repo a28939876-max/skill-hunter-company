@@ -32,7 +32,9 @@ at the firm.
 You type "powerpoint" into the box and get a wall of near-identical results sorted by
 stars. The one ranked seventh with thirty stars is a rewrite of the top result that
 happens to fit you better — and you'll never scroll to it. A headhunter doesn't post a
-job ad. They work the whole market and bring back the ones that never show up in search.
+job ad, and doesn't ask you to write the perfect one either. You say what you're after
+in plain words; the firm turns it into the search and works the whole market, including
+the candidates a keyword box never surfaces.
 
 **Vet · 验**
 You like a skill. Decent stars, author you've never heard of. Is it what it says it is,
@@ -117,7 +119,7 @@ flowchart LR
 
 | Stage | Headhunting term | What it does | Department |
 |---|---|---|---|
-| **找 Source** | sourcing / talent mapping | search across sources, fold copies into one candidate, headhunt low-star improvements star-sorting hides | `world-aid` |
+| **找 Source** | sourcing / talent mapping | turn a plain-language brief into keyword passes, search across sources, fold copies into one, surface low-star improvements star-sorting hides | `world-aid` |
 | **验 Vet** | due diligence / reference check | trace lineage (original vs fork vs re-skinned clone), security background check | `skill-lineage` (+ SkillSpector/OSV) |
 | **融 Bespoke** | bespoke search / develop the talent | no whole candidate? extract the best mechanism from each and build one | `skill-fusion` |
 | **装 Place** | placement / onboarding | make the offer — install and smoke-test | `world-aid` |
@@ -156,7 +158,7 @@ lineage background checks.
 
 | | A search box | skill-hunter-company |
 |---|---|---|
-| **Finding** | a wall of look-alikes by star count | a short list, copies folded into one, low-star improvements surfaced |
+| **Finding** | a wall of look-alikes by star count, and you have to guess the right keywords | say it in plain words; a short list comes back, copies folded into one, low-star improvements surfaced |
 | **Trust** | install and pray | due-diligence dossier: lineage + security before you ever meet a bad hire |
 | **No perfect fit** | settle for the closest | commission a bespoke skill from the best parts |
 | **After hiring** | forgotten | ongoing talent management — bench the idle, retire the redundant, follow upstream |
