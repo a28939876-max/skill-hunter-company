@@ -44,18 +44,18 @@
 
 ## 你真正得到什么（真实跑出）
 
-**按需求测绘市场**——同源拷贝归并成一个候选，绝不凑数：
+**按需求测绘市场**——说人话就行，公司替你拆关键词、多遍搜、同源拷贝归并成一个候选，绝不凑数：
 
 ```
-$ firm.py source "pptx powerpoint slides" --limit 6
+$ firm.py source "make a powerpoint deck from my notes"
+   keyword passes: powerpoint slide deck notes · slide deck notes · powerpoint slide
 
-🗂  Shortlist — 6 distinct candidates out of 6 sourced:
-  1. ningzimu/image-to-editable-ppt-skill          ★581
-  2. w1163222589-coder/slide-image-to-editable-pptx ★142
-  3. Akxan/ppt-agent-skill                          ★83
-  4. tristan-mcinnis/pptx-from-layouts-skill        ★75
-  5. kdnsna/ultimate-ppt-master-skill              ★48
-  6. Phlegonlabs/Powerpoint-fancy-design            ★26
+🗂  Shortlist — 27 distinct candidates across 3 passes：
+  1. microsoft/powerpoint                           ★1117
+  2. NyxTides/ppt-image-first                        ★1061
+  3. ningzimu/image-to-editable-ppt-skill           ★587
+  4. skrun-dev/slide-deck-generator                 ★201
+  5. w1163222589-coder/slide-image-to-editable-pptx ★143
 ```
 
 **盘点你已经雇下的团队**——绩效、板凳深度、重复编制：
@@ -117,8 +117,8 @@ cd skill-hunter-company
 # 1. 让后台各部门就位（取回姊妹仓）
 python3 ensure_firm.py
 
-# 2. 按需求测绘市场（用紧凑关键词，别用整句）
-python3 firm.py source "pptx powerpoint slides"
+# 2. 按需求测绘市场（说人话就行，公司替你拆关键词；英文最准）
+python3 firm.py source "make a powerpoint deck from my notes"
 
 # 3. 给一个 finalist 做背调，再雇下
 python3 firm.py vet  ningzimu/image-to-editable-ppt-skill
@@ -163,7 +163,7 @@ python3 firm.py place https://github.com/ningzimu/image-to-editable-ppt-skill
 
 ## 诚实注记
 
-- **用关键词，别用整句。** `source "pptx powerpoint slides"` 有货；一整句自然语言召回明显不足（搜罗引擎付过的学费）。
+- **直接说需求就行——公司替你拆关键词。** 搜罗引擎对整句召回不足，所以 `source` 会把你的 brief 拆成几组关键词（由宽到窄）各搜一遍再合并。`source "make a powerpoint deck from my notes"` 从**单遍原句的 0 个**变成**3 遍合并的 27 个候选**。想跳过自动拆解、按原词搜，用 `--exact "<关键词>"`（英文关键词最准）。
 - **信源会优雅降级。** 聚合站挂了或被限流？公司会报一句、然后用还开着的台子继续——绝不让搜索崩掉。
 - **谱系背调需要 token。** 背调走 GitHub API；不设 `GITHUB_TOKEN` 会见到 `HTTP 403` 和空档案。
 - **谁该用它？** 只装几个 skill 用完即走，搜索框就够了。当你开始**运营一支 roster**——很多 skill、跨越时间、血统/漂移/膨胀真在让你掏成本时，这家公司才值回票价。

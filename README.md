@@ -63,18 +63,19 @@ A search box barely covers "find." The other four gates are on you. A firm cover
 
 ## What you actually get (real runs)
 
-**Source the market for a need** — copies folded into one candidate, no padded list:
+**Source the market for a need** — say it in plain words; the firm distills the keywords,
+runs several passes, and folds copies into one (no padded list):
 
 ```
-$ firm.py source "pptx powerpoint slides" --limit 6
+$ firm.py source "make a powerpoint deck from my notes"
+   keyword passes: powerpoint slide deck notes · slide deck notes · powerpoint slide
 
-🗂  Shortlist — 6 distinct candidates out of 6 sourced:
-  1. ningzimu/image-to-editable-ppt-skill          ★581
-  2. w1163222589-coder/slide-image-to-editable-pptx ★142
-  3. Akxan/ppt-agent-skill                          ★83
-  4. tristan-mcinnis/pptx-from-layouts-skill        ★75
-  5. kdnsna/ultimate-ppt-master-skill              ★48
-  6. Phlegonlabs/Powerpoint-fancy-design            ★26
+🗂  Shortlist — 27 distinct candidates across 3 passes:
+  1. microsoft/powerpoint                           ★1117
+  2. NyxTides/ppt-image-first                        ★1061
+  3. ningzimu/image-to-editable-ppt-skill           ★587
+  4. skrun-dev/slide-deck-generator                 ★201
+  5. w1163222589-coder/slide-image-to-editable-pptx ★143
 ```
 
 **Review the team you already hired** — performance, bench strength, redundant hires:
@@ -137,8 +138,8 @@ cd skill-hunter-company
 # 1. Bring the back-office departments online (fetches the sibling repos)
 python3 ensure_firm.py
 
-# 2. Work the market for what you need (use tight keywords, not a sentence)
-python3 firm.py source "pptx powerpoint slides"
+# 2. Work the market — plain language is fine; the firm distills the keywords
+python3 firm.py source "make a powerpoint deck from my notes"
 
 # 3. Background-check a finalist, then make the hire
 python3 firm.py vet  ningzimu/image-to-editable-ppt-skill
@@ -185,8 +186,11 @@ Built and shipped alongside its siblings:
 
 ## Honest notes
 
-- **Use keywords, not sentences.** `source "pptx powerpoint slides"` works; a full
-  natural-language sentence under-recalls (a hard lesson from the sourcing engine).
+- **Just describe the need — the firm distills the keywords.** The sourcing engine
+  under-recalls on full sentences, so `source` turns your brief into a few keyword
+  passes (broad → narrow), runs each, and merges. `source "make a powerpoint deck
+  from my notes"` went from **0 hits** (one verbatim pass) to **27 candidates** (3
+  distilled passes). Pass `--exact "<keywords>"` to skip distillation and search verbatim.
 - **Sources degrade gracefully.** Aggregator down or rate-limited? The firm reports
   it and carries on with whatever desks are open — it never crashes the search.
 - **Lineage needs a token.** Background checks hit the GitHub API; set `GITHUB_TOKEN`

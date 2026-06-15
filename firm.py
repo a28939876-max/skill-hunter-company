@@ -70,6 +70,45 @@ def run_script(path: str, args: list[str]) -> tuple[int, str]:
 
 
 # ── source 找 ────────────────────────────────────────────────────────────────
+# A good headhunter turns a vague brief into a search strategy — they don't ask
+# the client for better keywords. The sourcing engine under-recalls on full
+# sentences, so the firm distills the need into a few keyword passes (broad to
+# narrow) and merges the results. You can still pass exact keywords directly.
+STOPWORDS = {
+    "a", "an", "the", "for", "to", "that", "this", "of", "in", "on", "with", "and",
+    "or", "my", "me", "i", "you", "your", "it", "is", "are", "be", "can", "could",
+    "want", "wants", "wanted", "need", "needs", "would", "like", "make", "makes",
+    "made", "turn", "turns", "into", "from", "get", "gets", "help", "please", "some",
+    "way", "let", "able", "好", "想", "要", "帮", "我", "的", "个", "找",
+    # too generic in this domain to discriminate
+    "skill", "skills", "tool", "tools", "agent", "ai",
+}
+
+
+def derive_queries(need: str) -> list[str]:
+    """Turn a (possibly natural-language) brief into a few keyword passes.
+    Short input is treated as keywords already; a sentence is distilled into
+    broad/narrow/tail nets and merged downstream."""
+    toks = re.findall(r"[A-Za-z0-9+#.]+|[一-鿿]+", need.lower())
+    if len(toks) <= 3:                       # already keyword-ish → one pass
+        return [need.strip()]
+    content = [t for t in toks if t not in STOPWORDS and len(t) > 1]
+    if not content:
+        return [need.strip()]
+    variants = [
+        " ".join(content),                   # narrow: all content words
+        " ".join(content[-3:]),              # tail: the object often sits at the end
+        " ".join(content[:2]),               # broad: first couple of content words
+    ]
+    seen, out = set(), []
+    for v in variants:
+        v = v.strip()
+        if v and v not in seen:
+            seen.add(v)
+            out.append(v)
+    return out
+
+
 def cmd_source(a) -> int:
     need = " ".join(a.need).strip()
     script = back_office("world-aid", "search_skills.py")
@@ -77,30 +116,47 @@ def cmd_source(a) -> int:
         print("⚠ sourcing department offline: could not locate world-aid "
               "(run `python3 ensure_firm.py`).", file=sys.stderr)
         return 2
-    extra = ["--limit", str(a.limit)] + (["--no-github"] if a.no_github else [])
-    print(f"📇 The firm is working the market for: “{need}”\n"
-          f"   （在测绘市场、搜罗候选——包括挂不出来的被动人选）\n")
-    code, out = run_script(script, [need, *extra])
-    if code != 0:
-        print(out, file=sys.stderr)
-        return code
-    try:
-        data = json.loads(out)
-    except json.JSONDecodeError:
-        print(out)
-        return 0
-    fams = sorted(data.get("families", []), key=lambda f: f["head"].get("stars", 0),
-                  reverse=True)
-    print(f"🗂  Shortlist — {data.get('family_count', 0)} distinct candidates "
-          f"out of {data.get('total', 0)} sourced "
-          f"(copies grouped into one; we don't pad the list):\n")
-    for i, fam in enumerate(fams[:a.limit], 1):
-        h = fam["head"]
-        dup = f"  ·  {fam['size']} look-alikes folded in" if fam["size"] > 1 else ""
-        print(f"  {i}. {h.get('author','?')}/{h.get('name','?')}  "
-              f"★{h.get('stars',0)}{dup}")
-        print(f"     {h.get('url','')}")
-    for note in data.get("notes", []):
+    queries = [need] if a.exact else derive_queries(need)
+    nogh = ["--no-github"] if a.no_github else []
+    print(f"📇 The firm is working the market for: “{need}”")
+    if len(queries) > 1 or queries[0] != need:
+        print(f"   keyword passes: {' · '.join(queries)}")
+    print("   （把需求拆成几组关键词、由宽到窄各搜一遍再合并）\n")
+
+    pool: dict[str, dict] = {}               # url -> best candidate seen
+    notes: list[str] = []
+    for q in queries:
+        code, out = run_script(script, [q, "--limit", str(a.limit), *nogh])
+        if code != 0:
+            notes.append(f"pass '{q}' failed")
+            continue
+        try:
+            data = json.loads(out)
+        except json.JSONDecodeError:
+            continue
+        for fam in data.get("families", []):
+            h = fam["head"]
+            url = h.get("url", "")
+            if not url:
+                continue
+            prev = pool.get(url)
+            if not prev or h.get("stars", 0) > prev["stars"]:
+                pool[url] = {"author": h.get("author", "?"), "name": h.get("name", "?"),
+                             "stars": h.get("stars", 0), "url": url, "size": fam.get("size", 1)}
+        for n in data.get("notes", []):
+            if n not in notes:
+                notes.append(n)
+
+    cands = sorted(pool.values(), key=lambda c: c["stars"], reverse=True)
+    print(f"🗂  Shortlist — {len(cands)} distinct candidates across "
+          f"{len(queries)} pass(es) (copies folded into one; we don't pad the list):\n")
+    for i, c in enumerate(cands[:a.limit], 1):
+        dup = f"  ·  {c['size']} look-alikes folded in" if c["size"] > 1 else ""
+        print(f"  {i}. {c['author']}/{c['name']}  ★{c['stars']}{dup}")
+        print(f"     {c['url']}")
+    if not cands:
+        print("  (no candidates — try different words, or --exact \"<keywords>\")")
+    for note in notes:
         print(f"\n   ⓘ {note}")
     print("\n   Next: vet a finalist →  firm.py vet <owner/repo>")
     return 0
@@ -325,9 +381,11 @@ def main() -> int:
     sub = ap.add_subparsers(dest="cmd")
 
     p = sub.add_parser("source", help="找 — source candidate skills for a need")
-    p.add_argument("need", nargs="+")
+    p.add_argument("need", nargs="+", help="a plain need or exact keywords")
     p.add_argument("--limit", type=int, default=8)
     p.add_argument("--no-github", action="store_true")
+    p.add_argument("--exact", action="store_true",
+                   help="treat input as exact keywords; skip the keyword distillation")
     p.set_defaults(fn=cmd_source)
 
     p = sub.add_parser("vet", help="验 — due diligence on a candidate (owner/repo)")

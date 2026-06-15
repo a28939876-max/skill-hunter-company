@@ -21,10 +21,13 @@ $ python3 firm.py source "pptx powerpoint slides" --limit 6
    ⓘ skillsmp failed: HTTP Error 500: Internal Server Error
 ```
 
-**Notes from the run (kept honest):**
-- The first attempt used the full sentence as the query and returned **0** results —
-  the sourcing engine under-recalls on prose. Tight keywords (`pptx powerpoint slides`)
-  returned a clean shortlist. The README and `firm.py` help both say "keywords, not sentences."
+**Notes from the run (the lesson that became a feature):**
+- The first attempt passed the full sentence as one query and returned **0** results —
+  the sourcing engine under-recalls on prose. Instead of pushing "use keywords" onto the
+  user (which fights the whole "say what you want" pitch), `source` now distills any brief
+  into a few keyword passes (broad → narrow) and merges them. The same sentence
+  *"make a powerpoint deck from my notes"* now returns **27 candidates across 3 passes**.
+  `--exact "<keywords>"` still searches verbatim when you want control.
 - SkillsMP was down (HTTP 500, a known-flaky upstream). The firm **reported it and
   carried on** with the GitHub desk — the search did not crash. Graceful degradation
   is the point.
