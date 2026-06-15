@@ -4,6 +4,8 @@
 
 [中文版 →](README.zh-CN.md)
 
+![A real roster review: 34 skills on the payroll, 16 idle on the bench](assets/proof-roster.png)
+
 A retained **headhunting firm for the skills your AI agent depends on.**
 
 A good executive-search firm doesn't dump 15 résumés on your desk. It works the

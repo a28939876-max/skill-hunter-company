@@ -4,6 +4,8 @@
 
 [English →](README.md)
 
+![真实的名册体检：34 个在岗 skill，16 个闲置在板凳席](assets/proof-roster.png)
+
 一家为你 **AI agent 所依赖的 skill** 服务的 **猎头公司（高管猎聘 / executive search）**。
 
 好的猎头公司不会甩给你 15 份简历，而是替你测绘市场、只交一份已经背调过的短名单、
