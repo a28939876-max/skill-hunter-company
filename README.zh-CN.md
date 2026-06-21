@@ -81,6 +81,12 @@ $ firm.py roster --days 45
 > 上面的数字来自一份真实的 34 个 skill 的安装。**在岗的每个 skill，不管调没调用，
 > 每次会话都在吃上下文预算**——公司会告诉你该让谁下板凳。
 
+### 案例
+
+- [案例 01：按需求搜罗一个 skill](cases/01-source-a-ppt-skill.md)
+- [案例 02：盘点已经雇下的团队](cases/02-review-your-roster.md)
+- [案例 03：背调一个社媒发布 skill](cases/03-vet-a-social-publishing-skill.md)
+
 ---
 
 ## 完整流程

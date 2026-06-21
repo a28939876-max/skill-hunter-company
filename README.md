@@ -104,6 +104,12 @@ $ firm.py roster --days 45
 > Numbers above are from a real install of 34 skills. Every skill on the payroll
 > costs context budget each session, called or not — the firm tells you who to bench.
 
+### Cases
+
+- [Case 01: source a skill for a need](cases/01-source-a-ppt-skill.md)
+- [Case 02: review the team you already hired](cases/02-review-your-roster.md)
+- [Case 03: vet a social publishing skill](cases/03-vet-a-social-publishing-skill.md)
+
 ---
 
 ## The engagement
